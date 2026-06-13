@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity Terminal - Advanced Browser Shell Emulator</title>
+  <meta name="description" content="A premium, full-featured web-based terminal emulator powered by xterm.js and WebSockets with live host resource monitoring.">
+  
+  <!-- xterm.js stylesheets -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.css" />
+  
+  <!-- Custom styling -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <div class="brand-section">
+      <button class="btn-toggle-sidebar" id="btn-toggle-sidebar" title="Toggle Sidebar/Metrics">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="toggle-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div class="logo-glow" id="logo-indicator"></div>
+      <h1 id="app-title">Antigravity Terminal</h1>
+    </div>
+    
+    <div class="status-badge" id="terminal-status-badge">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">Connecting...</span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Sidebar for metrics and controls (collapsed by default for full screen) -->
+    <aside class="sidebar collapsed" id="sidebar">
+      <div>
+        <h2 class="section-title">Host Performance</h2>
+        <div class="stats-card">
+          <!-- CPU stat -->
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>CPU Usage</span>
+              <span id="cpu-value">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill cpu-fill" id="cpu-progress" style="width: 0%;"></div>
+            </div>
+          </div>
+          
+          <!-- RAM stat -->
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Memory Usage</span>
+              <span id="ram-value">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill ram-fill" id="ram-progress" style="width: 0%;"></div>
+            </div>
+          </div>
+          
+          <!-- Uptime stat -->
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Host Uptime</span>
+            </div>
+            <div class="stat-value" id="uptime-value">--:--:--</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Actions panel -->
+      <div class="control-panel">
+        <h2 class="section-title">Terminal Controls</h2>
+        <button class="btn btn-secondary" id="btn-clear" title="Clear terminal screen buffer">
+          Clear Screen
+        </button>
+        <button class="btn btn-primary" id="btn-reconnect" title="Restart terminal connection">
+          Reset Connection
+        </button>
+      </div>
+    </aside>
+    
+    <!-- Terminal Main Area -->
+    <main class="terminal-wrapper">
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="window-dots">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+          </div>
+          <div class="terminal-title" id="terminal-session-title">bash (interactive)</div>
+          <div></div> <!-- Spacer -->
+        </div>
+        
+        <!-- Target container for terminal emulator -->
+        <div id="terminal-container"></div>
+      </div>
+    </main>
+    
+  </div>
+
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="logo-glow"></div>
+        <h2>Terminal Login</h2>
+      </div>
+      <p class="login-desc">Enter your host SSH credentials to connect to the shell session.</p>
+      
+      <div id="login-error" class="login-error" style="display: none;"></div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label for="ssh-username">SSH Username</label>
+          <input type="text" id="ssh-username" placeholder="" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="ssh-password">SSH Password</label>
+          <input type="password" id="ssh-password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-login-submit">Connect Session</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- xterm.js and FitAddon Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/lib/xterm.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@xterm/addon-fit@0.10.0/lib/addon-fit.js"></script>
+  
+  <!-- Client Implementation -->
+  <script src="client.js"></script>
+</body>
+</html>

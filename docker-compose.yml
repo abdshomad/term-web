@@ -1,0 +1,14 @@
+services:
+  web-terminal:
+    build: .
+    container_name: xterm_web_terminal
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
